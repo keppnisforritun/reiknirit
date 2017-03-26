@@ -1,0 +1,31 @@
+#!/bin/bash
+
+#if [ $# -eq 0 ]
+#  then
+#    echo "Missing argument, usage is: generator <dir>"
+#    echo "The generator will generate the testcases in the specified directory"
+#    exit 0
+#fi
+
+#mkdir -p $1
+mkdir -p ./complete
+mkdir -p ./complete-bipartite
+mkdir -p ./random
+mkdir -p ./random-bipartite
+for i in `seq 1 10`;
+do
+  python3 generate.py complete $i > ./complete/$i.in
+  ./a.out < ./complete/$i.in > ./complete/$i.ans
+  
+  python3 generate.py complete-bipartite $i $i > ./complete-bipartite/$i.in
+  ./a.out < ./complete-bipartite/$i.in > ./complete-bipartite/$i.ans
+done;
+
+for i in `seq 1 10`;
+do
+  python3 generate.py random 20 > ./random/$i.in
+  ./a.out < ./random/$i.in > ./random/$i.ans
+
+  python3 generate.py random-bipartite 15 15 > ./random-bipartite/$i.in
+  ./a.out < ./random-bipartite/$i.in > ./random-bipartite/$i.ans
+done;
