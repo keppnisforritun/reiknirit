@@ -9,12 +9,18 @@ typedef vector<ii> vii;
 typedef long long ll;
 const int INF = 2147483647;
 
-#define MAXV 1000
+// #define MAXV 1000
+#define MAXV 250
 // int par[MAXV],
 //     height[MAXV],
 //     root[MAXV];
-// bool marked[MAXV],
-//      emarked[MAXV][MAXV];
+bool marked[MAXV],
+     emarked[MAXV][MAXV];
+int S[MAXV];
+
+
+// bool emarked[MAXV][MAXV];
+// vector<vector<bool> > emarked(n, vector<bool>(n));
 
 vi find_augmenting_path(const vector<vi> &adj, const vi &mate) {
 //     cout << endl;
@@ -32,8 +38,7 @@ vi find_augmenting_path(const vector<vi> &adj, const vi &mate) {
     vi par(n,-1),
        height(n),
        root(n,-1);
-    vector<bool> marked(n);
-    vector<vector<bool> > emarked(n, vector<bool>(n));
+    // vector<bool> marked(n);
 
     // int par[MAXV],
     //     height[MAXV],
@@ -44,14 +49,13 @@ vi find_augmenting_path(const vector<vi> &adj, const vi &mate) {
     // memset(par,-1,MAXV * sizeof(int));
     // memset(height,0,MAXV * sizeof(int));
     // memset(root,-1,MAXV * sizeof(int));
-    // memset(marked,0,MAXV * sizeof(bool));
-    // memset(emarked,0,MAXV * MAXV * sizeof(bool));
+    memset(marked,0,sizeof(marked));
+    memset(emarked,0,sizeof(emarked));
+    int s = 0;
     rep(i,0,n) if (mate[i] >= 0) emarked[i][mate[i]] = true;
-               else root[i] = i;
-    while (true) {
-        int v = 0;
-        while (v < n && (marked[v] || root[v] == -1 || height[v] % 2 != 0)) v++;
-        if (v == n) break;
+               else root[i] = i, S[s++] = i;
+    while (s) {
+        int v = S[--s];
         iter(it,adj[v]) {
             int w = *it;
             if (emarked[v][w]) continue;
@@ -59,6 +63,7 @@ vi find_augmenting_path(const vector<vi> &adj, const vi &mate) {
                 int x = mate[w];
                 par[w] = v, root[w] = root[v], height[w] = height[v]+1;
                 par[x] = w, root[x] = root[w], height[x] = height[w]+1;
+                S[s++] = x;
             } else if (height[w] % 2 == 0) {
                 if (root[v] != root[w]) {
                     vi res;
@@ -93,7 +98,8 @@ vi find_augmenting_path(const vector<vi> &adj, const vi &mate) {
                     // cout << "meow " << v << " " << w << " " << c << endl;
 
 
-                    fill(marked.begin(), marked.end(), false);
+                    memset(marked,0,sizeof(marked));
+                    // fill(marked.begin(), marked.end(), false);
                     // memset(marked,0,MAXV*sizeof(bool)); // marked[i] means that i has been connected to S
                     fill(par.begin(), par.end(), 0);
                     // memset(par,0,MAXV*sizeof(int));
@@ -167,7 +173,7 @@ vi find_augmenting_path(const vector<vi> &adj, const vi &mate) {
                         // cout << root[p[idx-1]] << " " << *it << endl;
 
                         a.push_back(c);
-                        reverse(b.begin(), b.end());
+                        reverse(a.begin(), a.end());
                         iter(jt,b) a.push_back(*jt);
 
                         int jdx = 0;
@@ -179,7 +185,8 @@ vi find_augmenting_path(const vector<vi> &adj, const vi &mate) {
 
                         // if (height[*it] % 2 == 0) { // TODO: WAT
                         // cout << (height[*it] & 1) << " " << (jdx < size(a)) << endl;
-                        if (1 ^ (height[*it] & 1) ^ (jdx < size(a) - size(b))) {
+                        if ((height[*it] & 1) ^ (jdx < size(a) - size(b))) {
+                        // if ((height[*it] & 1) ^ (jdx < size(a) - size(b))) {
                             // cout << "reversed" << endl;
                             reverse(a.begin(), a.end());
                             jdx = size(a) - jdx - 1;
@@ -211,7 +218,7 @@ vii max_matching(const vector<vi> &adj) {
         // cout << "ap: ";
         // iter(it,ap) cout << *it << " ";
         // cout << endl;
-        assert(size(ap) % 2 == 0);
+        // assert(size(ap) % 2 == 0);
         // cout << "wat ";
         // cout << size(ap) << endl;
         // iter(it,ap) cout << *it << " ";
@@ -222,6 +229,7 @@ vii max_matching(const vector<vi> &adj) {
     return res; }
 
 int main() {
+    cin.sync_with_stdio(false);
     int n; // , m;
     cin >> n; // >> m;
     vector<vi> adj(n);
@@ -229,7 +237,7 @@ int main() {
     while (cin >> a >> b) {
     // rep(i,0,m) {
         // int a, b;
-        cin >> a >> b;
+        // cin >> a >> b;
         a--, b--;
         adj[a].push_back(b);
         adj[b].push_back(a);
