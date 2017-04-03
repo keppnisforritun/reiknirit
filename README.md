@@ -6,10 +6,8 @@ reiknirit eða gagnaskipan, eitt í senn, lært um þau, og þau svo útfærð h
 
 ## Í vinnslu
 
-Reikniritið sem við erum núna að skoða er [Blossom
-algorithm](https://en.wikipedia.org/wiki/Blossom_algorithm). Þið getið lesið
-ykkur til um það, og hjálpað svo til við að útfæra það hér. Okkur vantar líka
-tilvik sem við getum prófað reikniritið á.
+Við höfum ekki ennþá valið næsta viðfangsefni. Endilega láttu okkur vita ef það
+er eitthvað sem þig langar skoða með okkur!
 
 ## Hugmyndir
 
@@ -29,4 +27,10 @@ gætum tekið fyrir í framtíðinni. Ekki vera feimin við að bæta við hugmy
 - FKT algorithm
 - BEST theorem
 - Fortune's algorithm
+
+## Tilbúið
+
+Hér eru viðfangsefni sem við höfum þegar tekið fyrir og útfært.
+
+- [Blossom algorithm](https://github.com/keppnisforritun/reiknirit/blob/master/Blossom%20algorithm/blossom.cpp)
 
