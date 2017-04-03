@@ -9,49 +9,14 @@ typedef vector<ii> vii;
 typedef long long ll;
 const int INF = 2147483647;
 
-// #define MAXV 1000
-#define MAXV 250
-// int par[MAXV],
-//     height[MAXV],
-//     root[MAXV];
-bool marked[MAXV],
-     emarked[MAXV][MAXV];
+#define MAXV 300
+bool marked[MAXV], emarked[MAXV][MAXV];
 int S[MAXV];
-
-
-// bool emarked[MAXV][MAXV];
-// vector<vector<bool> > emarked(n, vector<bool>(n));
-
 vi find_augmenting_path(const vector<vi> &adj, const vi &mate) {
-//     cout << endl;
-// rep(i,0,size(adj)) {
-//     cout << i << ": ";
-//     iter(it,adj[i]) {
-//         cout << *it << " ";
-//     }
-//     cout << endl;
-// }
-// rep(i,0,size(mate)) cout << mate[i] << " ";
-// cout << endl;
-
-    int n = size(adj);
-    vi par(n,-1),
-       height(n),
-       root(n,-1);
-    // vector<bool> marked(n);
-
-    // int par[MAXV],
-    //     height[MAXV],
-    //     root[MAXV];
-    // bool marked[MAXV],
-    //     emarked[MAXV][MAXV];
-    //
-    // memset(par,-1,MAXV * sizeof(int));
-    // memset(height,0,MAXV * sizeof(int));
-    // memset(root,-1,MAXV * sizeof(int));
+    int n = size(adj), s = 0;
+    vi par(n,-1), height(n), root(n,-1), q, a, b;
     memset(marked,0,sizeof(marked));
     memset(emarked,0,sizeof(emarked));
-    int s = 0;
     rep(i,0,n) if (mate[i] >= 0) emarked[i][mate[i]] = true;
                else root[i] = i, S[s++] = i;
     while (s) {
@@ -60,169 +25,69 @@ vi find_augmenting_path(const vector<vi> &adj, const vi &mate) {
             int w = *it;
             if (emarked[v][w]) continue;
             if (root[w] == -1) {
-                int x = mate[w];
+                int x = S[s++] = mate[w];
                 par[w] = v, root[w] = root[v], height[w] = height[v]+1;
                 par[x] = w, root[x] = root[w], height[x] = height[w]+1;
-                S[s++] = x;
             } else if (height[w] % 2 == 0) {
                 if (root[v] != root[w]) {
-                    vi res;
-                    while (v != -1) res.push_back(v), v = par[v];
-                    reverse(res.begin(), res.end());
-                    while (w != -1) res.push_back(w), w = par[w];
-                    return res;
+                    while (v != -1) q.push_back(v), v = par[v];
+                    reverse(q.begin(), q.end());
+                    while (w != -1) q.push_back(w), w = par[w];
+                    return q;
                 } else {
-
-                    vi a, b;
                     int c = v;
                     while (c != -1) a.push_back(c), c = par[c];
                     c = w;
                     while (c != -1) b.push_back(c), c = par[c];
-                    // reverse(a.begin(), a.end());
-                    // reverse(b.begin(), b.end());
-                    while (!a.empty() && !b.empty() && a.back() == b.back()) c = a.back(), a.pop_back(), b.pop_back();
-
-                    // cout << "a: ";
-                    // iter(it,a) cout << *it << " ";
-                    // cout << endl;
-                    // cout << "b: ";
-                    // iter(it,b) cout << *it << " ";
-                    // cout << endl;
-                    // cout << "c: " << c << endl;
-
-
-                    // rep(i,0,n) cout << par[i] << " ";
-                    // cout << endl;
-                    // rep(i,0,n) cout << mate[i] << " ";
-                    // cout << endl;
-                    // cout << "meow " << v << " " << w << " " << c << endl;
-
-
+                    while (!a.empty() && !b.empty() && a.back() == b.back())
+                        c = a.back(), a.pop_back(), b.pop_back();
                     memset(marked,0,sizeof(marked));
-                    // fill(marked.begin(), marked.end(), false);
-                    // memset(marked,0,MAXV*sizeof(bool)); // marked[i] means that i has been connected to S
                     fill(par.begin(), par.end(), 0);
-                    // memset(par,0,MAXV*sizeof(int));
-
-                    // cout << "meow" << endl;
-                    // iter(it,a) cout << *it << " ";
-                    // cout << endl;
-                    // cout << "meow" << endl;
-
-                    iter(it,a) par[*it] = 1;
-                    iter(it,b) par[*it] = 1;
-                    par[c] = 1;
-                    int m = 1;
-
-                    rep(i,0,n) root[par[i] = par[i] ? 0 : m++] = i;
-
-                    // par[i] er nýja id-ið (sér í lagi 0 ef það er súpernóðan)
-
-                    // TODO: clean up
-                    vector<vi> adj2(m);
-                    rep(i,0,n) {
-                        iter(it,adj[i]) {
-                            if (par[*it] == 0) continue;
-                            if (par[i] == 0) {
-                                if (!marked[par[*it]])  {
-                                    adj2[par[i]].push_back(par[*it]);
-                                    adj2[par[*it]].push_back(par[i]);
-                                    marked[par[*it]] = true;
-                                }
-                            } else {
+                    iter(it,a) par[*it] = 1; iter(it,b) par[*it] = 1;
+                    par[c] = s = 1;
+                    rep(i,0,n) root[par[i] = par[i] ? 0 : s++] = i;
+                    vector<vi> adj2(s);
+                    rep(i,0,n) iter(it,adj[i]) {
+                        if (par[*it] == 0) continue;
+                        if (par[i] == 0) {
+                            if (!marked[par[*it]])  {
                                 adj2[par[i]].push_back(par[*it]);
-                            }
-                        }
-                    }
-
-                    vi mate2(m, -1);
-                    // assert(mate[c] != -1 && par[c] == 0 && par[mate[c]] != 0);
-                    if (mate[c] != -1) {
-                        mate2[0] = par[mate[c]];
-                        mate2[par[mate[c]]] = 0;
-                    }
-
-                    rep(i,0,n) {
-                        // cout << i << " " << mate[i] << endl;
-                        if (par[i] == 0 || mate[i] == -1 || par[mate[i]] == 0) continue;
+                                adj2[par[*it]].push_back(par[i]);
+                                marked[par[*it]] = true; }
+                        } else adj2[par[i]].push_back(par[*it]); }
+                    vi mate2(s, -1);
+                    if (mate[c] != -1) mate2[mate2[par[mate[c]]] = 0] = par[mate[c]];
+                    rep(i,0,n) if (par[i] != 0 && mate[i] != -1 && par[mate[i]] != 0)
                         mate2[par[i]] = par[mate[i]];
-                    }
-
-
-                    // cout << "down" << endl;
                     vi p = find_augmenting_path(adj2, mate2);
-                    // cout << "up" << endl;
-                    // cout << "p: ";
-                    // iter(it,p) cout << *it << " ";
-                    // cout << endl;
-                    int idx = 0;
-                    while (idx < size(p) && p[idx] != 0) idx++;
-                    if (idx == size(p)) {
+                    int t = 0;
+                    while (t < size(p) && p[t]) t++;
+                    if (t == size(p)) {
                         rep(i,0,size(p)) p[i] = root[p[i]];
-                        return p;
-                    }
-
-                    if (p[0] == 0 || (mate[c] != -1 && p[idx+1] != par[mate[c]])) reverse(p.begin(), p.end()), idx = size(p) - idx - 1;
-                    vi q;
-                    rep(i,0,idx) q.push_back(root[p[i]]);
-
-                    assert(idx-1 >= 0);
-                    iter(it,adj[root[p[idx-1]]]) {
-                        if (par[*it] != 0) continue;
-
-                        // cout << root[p[idx-1]] << " " << *it << endl;
-
-                        a.push_back(c);
-                        reverse(a.begin(), a.end());
+                        return p; }
+                    if (p[0] == 0 || (mate[c] != -1 && p[t+1] != par[mate[c]]))
+                        reverse(p.begin(), p.end()), t = size(p) - t - 1;
+                    rep(i,0,t) q.push_back(root[p[i]]);
+                    iter(it,adj[root[p[t-1]]]) {
+                        if (par[*it] != (s = 0)) continue;
+                        a.push_back(c), reverse(a.begin(), a.end());
                         iter(jt,b) a.push_back(*jt);
-
-                        int jdx = 0;
-                        while (a[jdx] != *it) jdx++;
-
-                        // cout << "cycle: ";
-                        // iter(it,a) cout << *it << " ";
-                        // cout << endl;
-
-                        // if (height[*it] % 2 == 0) { // TODO: WAT
-                        // cout << (height[*it] & 1) << " " << (jdx < size(a)) << endl;
-                        if ((height[*it] & 1) ^ (jdx < size(a) - size(b))) {
-                        // if ((height[*it] & 1) ^ (jdx < size(a) - size(b))) {
-                            // cout << "reversed" << endl;
-                            reverse(a.begin(), a.end());
-                            jdx = size(a) - jdx - 1;
-                        }
-
-                        while (a[jdx] != c) {
-                            q.push_back(a[jdx]);
-                            jdx = (jdx+1) % size(a);
-                        }
-
+                        while (a[s] != *it) s++;
+                        if ((height[*it] & 1) ^ (s < size(a) - size(b)))
+                            reverse(a.begin(), a.end()), s = size(a) - s - 1;
+                        while (a[s] != c) q.push_back(a[s]), s = (s+1) % size(a);
                         q.push_back(c);
-                        rep(i,idx+1,size(p)) q.push_back(root[p[i]]);
-                        return q; // TODO
-                    }
-                    assert(false);
-                }
-            }
-            emarked[v][w] = emarked[w][v] = true;
-        }
-        marked[v] = true;
-    }
-    return vi();
-}
-
+                        rep(i,t+1,size(p)) q.push_back(root[p[i]]);
+                        return q; } } }
+            emarked[v][w] = emarked[w][v] = true; }
+        marked[v] = true; } return q; }
 vii max_matching(const vector<vi> &adj) {
-    vi mate(size(adj), -1), ap; vii res;
+    vi mate(size(adj), -1), ap; vii res, es;
+    rep(i,0,size(adj)) iter(it,adj[i]) es.emplace_back(i, *it);
+    random_shuffle(es.begin(), es.end());
+    iter(it,es) if (mate[it->first] == -1 && mate[it->second] == -1)
+        mate[it->first] = it->second, mate[it->second] = it->first;
     do { ap = find_augmenting_path(adj, mate);
-        // iter(it,ap) assert(0 <= *it && *it < size(adj));
-        // cout << "ap: ";
-        // iter(it,ap) cout << *it << " ";
-        // cout << endl;
-        // assert(size(ap) % 2 == 0);
-        // cout << "wat ";
-        // cout << size(ap) << endl;
-        // iter(it,ap) cout << *it << " ";
-        // cout << endl;
          rep(i,0,size(ap)) mate[mate[ap[i^1]] = ap[i]] = ap[i^1];
     } while (!ap.empty());
     rep(i,0,size(mate)) if (i < mate[i]) res.emplace_back(i, mate[i]);
@@ -230,19 +95,15 @@ vii max_matching(const vector<vi> &adj) {
 
 int main() {
     cin.sync_with_stdio(false);
-    int n; // , m;
-    cin >> n; // >> m;
+    int n;
+    cin >> n;
     vector<vi> adj(n);
     int a,b;
     while (cin >> a >> b) {
-    // rep(i,0,m) {
-        // int a, b;
-        // cin >> a >> b;
         a--, b--;
         adj[a].push_back(b);
         adj[b].push_back(a);
     }
-    // cout << size(max_matching(adj)) << endl;
     vii res = max_matching(adj);
     cout << 2*size(res) << endl;
     rep(i,0,size(res)) {
