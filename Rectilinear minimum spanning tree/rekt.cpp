@@ -49,7 +49,7 @@ ll dist(point a, point b)
 
 bool cmp(point a, point b)
 {
-    return a.second.second < b.second.second;
+    return a.second.second == b.second.second ? a.second.first > b.second.first : a.second.second < b.second.second;
 }
 
 point best[MAXN];
@@ -65,7 +65,7 @@ void rek(int l, int r)
     bst.first = -1;
     for(int i = l, j = m+1, k = 0; i <= m || j <= r; k++)
     {
-        if(j > r || i <= m && diag(arr[i]) <= diag(arr[j]))
+        if(j > r || i <= m && diag(arr[i]) < diag(arr[j]))
         {
             tmp[k] = arr[i++];
             if(bst.first != -1 && (best[tmp[k].first].first == -1 
@@ -118,12 +118,22 @@ int main()
     sort(es.begin(), es.end());
     union_find uf(n);
     ll res = 0;
+    vector<pair<ll, ii> > mst;
     iter(it, es)
     {
-        cout << it->second.first << " " << it->second.second << endl;
+        cout << it->first << " " << it->second.first << " " << it->second.second << endl;
         if(uf.find(it->second.first) == uf.find(it->second.second)) continue;
         uf.unite(it->second.first, it->second.second);
         res += it->first;
+        mst.push_back(*it);
+    }
+
+    assert(size(mst) == n-1);
+
+    cout << "MST:" << endl;
+    iter(it, mst)
+    {
+        cout << it->first << " " << it->second.first << " " << it->second.second << endl;
     }
 
     cout << res << endl;
