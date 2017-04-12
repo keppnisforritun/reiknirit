@@ -6,8 +6,14 @@ reiknirit eða gagnaskipan, eitt í senn, lært um þau, og þau svo útfærð h
 
 ## Í vinnslu
 
+Núverandi viðfangsefni er [Rectilinear minimum spanning
+tree](https://en.wikipedia.org/wiki/Rectilinear_minimum_spanning_tree).
+Endilega komdu og lærðu um það með okkur, og hjálpaðu okkur að útfæra það!
+
+<!--
 Við höfum ekki ennþá valið næsta viðfangsefni. Endilega láttu okkur vita ef það
 er eitthvað sem þig langar skoða með okkur!
+-->
 
 ## Hugmyndir
 
