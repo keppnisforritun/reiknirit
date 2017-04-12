@@ -63,7 +63,7 @@ void rek(int l, int r)
     rek(m+1,r);
     point bst;
     bst.first = -1;
-    for(int i = l, j = m+1, k = 0; i <= m || j <= r; k++)
+    for(int i = l, j = m+1, k = l; i <= m || j <= r; k++)
     {
         if(j > r || i <= m && diag(arr[i]) < diag(arr[j]))
         {
@@ -77,6 +77,10 @@ void rek(int l, int r)
             tmp[k] = arr[j++];
             if(bst.first == -1 || diag2(bst) < diag2(tmp[k])) bst = tmp[k];
         }
+    }
+    rep(i,l,r+1)
+    {
+        arr[i] = tmp[i];
     }
 }
 
@@ -97,10 +101,17 @@ int main()
         rep(q,0,2)
         {
             sort(arr, arr+n, cmp);
-            rep(i,0,n) best[i].first = -1;
-            rek(0,n-1);
+            //cout << "new rotation" << endl;
             rep(i,0,n)
             {
+                best[i].first = -1;
+                //cout << arr[i].first << " " << arr[i].second.first << " " << arr[i].second.second << endl;    
+            }
+            rek(0,n-1);
+            //cout << "the best array" << endl;
+            rep(i,0,n)
+            {
+                //cout << i << " " << arr[i].first << " " << best[arr[i].first].first << endl;
                 if(best[arr[i].first].first != -1)
                     es.push_back(make_pair(dist(arr[i], best[arr[i].first]),
                                 make_pair(arr[i].first, best[arr[i].first].first)));
@@ -121,7 +132,7 @@ int main()
     vector<pair<ll, ii> > mst;
     iter(it, es)
     {
-        cout << it->first << " " << it->second.first << " " << it->second.second << endl;
+        //cout << it->first << " " << it->second.first << " " << it->second.second << endl;
         if(uf.find(it->second.first) == uf.find(it->second.second)) continue;
         uf.unite(it->second.first, it->second.second);
         res += it->first;
@@ -130,10 +141,10 @@ int main()
 
     assert(size(mst) == n-1);
 
-    cout << "MST:" << endl;
+    //cout << "MST:" << endl;
     iter(it, mst)
     {
-        cout << it->first << " " << it->second.first << " " << it->second.second << endl;
+        //cout << it->first << " " << it->second.first << " " << it->second.second << endl;
     }
 
     cout << res << endl;
