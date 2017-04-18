@@ -38,6 +38,7 @@ gætum tekið fyrir í framtíðinni. Ekki vera feimin við að bæta við hugmy
 - 3D Convex Hull
 - [Cayley-Hamilton theorem](https://discuss.codechef.com/questions/49614/linear-recurrence-using-cayley-hamilton-theorem)
 - Stoer-Wagner algorithm
+- Dominator tree
 
 ## Tilbúið
 
