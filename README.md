@@ -39,6 +39,8 @@ gætum tekið fyrir í framtíðinni. Ekki vera feimin við að bæta við hugmy
 - [Cayley-Hamilton theorem](https://discuss.codechef.com/questions/49614/linear-recurrence-using-cayley-hamilton-theorem)
 - Stoer-Wagner algorithm
 - Dominator tree
+- Half-plane intersection
+- Duval's algorithm
 
 ## Tilbúið
 
