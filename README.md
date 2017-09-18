@@ -41,6 +41,7 @@ gætum tekið fyrir í framtíðinni. Ekki vera feimin við að bæta við hugmy
 - Dominator tree
 - Half-plane intersection
 - Duval's algorithm
+- Planarity testing (Boyer-Myrvold?)
 
 ## Tilbúið
 
