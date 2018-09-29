@@ -35,7 +35,6 @@ gætum tekið fyrir í framtíðinni. Ekki vera feimin við að bæta við hugmy
 - Ukkonen's algorithm
 - Pairing heap
 - Laguerre's method
-- 3D Convex Hull
 - [Cayley-Hamilton theorem](https://discuss.codechef.com/questions/49614/linear-recurrence-using-cayley-hamilton-theorem)
 - Stoer-Wagner algorithm
 - Dominator tree
@@ -49,4 +48,4 @@ Hér eru viðfangsefni sem við höfum þegar tekið fyrir og útfært.
 
 - [Blossom algorithm](https://github.com/keppnisforritun/reiknirit/blob/master/Blossom%20algorithm/blossom.cpp)
 - [Rectilinear minimum spanning tree](https://github.com/keppnisforritun/reiknirit/blob/master/Rectilinear%20minimum%20spanning%20tree/rekt.cpp)
-
+- Gift Wrapping algorithm (3D Convex Hull)
