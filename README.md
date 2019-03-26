@@ -34,6 +34,7 @@ gætum tekið fyrir í framtíðinni. Ekki vera feimin við að bæta við hugmy
 - Fortune's algorithm
 - Ukkonen's algorithm
 - Pairing heap
+- Útfæra Minimum-Cost Arborescence með Pairing heap
 - Laguerre's method
 - [Cayley-Hamilton theorem](https://discuss.codechef.com/questions/49614/linear-recurrence-using-cayley-hamilton-theorem)
 - Stoer-Wagner algorithm
